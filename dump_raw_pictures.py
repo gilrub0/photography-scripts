@@ -29,9 +29,14 @@ def copy_and_rename(path=r"G:\\"):
             datetime.datetime.fromtimestamp(os.stat(f).st_mtime).strftime('%Y_%m_%d').split("_")[1],
             datetime.datetime.fromtimestamp(os.stat(f).st_mtime).strftime('%Y_%m_%d').split("_")[2]),
                                      file_creation_date + '_' + f.split('\\')[-1])
-        shutil.copy2(os.path.join(path, f), new_file_path)
+        if not os.path.exists(new_file_path):
+            shutil.copy2(os.path.join(path, f), new_file_path)
+            print("copied " + str(copied_files) + "/" + str(files_counter) + " files")
+        else:
+            print("file already exists: ", new_file_path)
         copied_files += 1
-        print("copied " + str(copied_files) + "/" + str(files_counter) + " files")
+
+
 
 
 def only_rename(path=r"F:\photography\RAW"):
