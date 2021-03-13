@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-def copy_and_rename(path=r"G:\\"):
+def copy_and_rename(path=r"I:\\"):
     found_files = [y for x in os.walk(path) for y in glob.glob(os.path.join(x[0], '*.NEF'))]
     root_dist_path = r"F:\photography\RAW"
     dates = []
@@ -51,25 +51,26 @@ while True:
     print("")
     print("   menu")
     print('________________________')
-    print(r"1. copy and rename (default path is G:\)")
+    print(r"1. copy and rename (default path is I:\)")
     print(r"2. only fix name (default path is F:\photography\RAW)")
     print("input exit to exit")
     ans = input("chose number: ")
     if ans == "1":
-        a = input("input path to copy and rename from (default path is G:\\): ")
+        a = input("input path to copy and rename from or return by 'b' (default path is I:\\): ")
         if len(a) > 0:
             copy_and_rename(a)
-        if a == 'exit':
+        if a == 'exit' or a == 'b':
             print('returning to main menu')
         else:
             copy_and_rename()
     if ans == "2":
-        a = input("input path to scan and rename (default is F:\\photography\\RAW): ")
-        if a == "exit":
+        a = input("input path to scan and rename or return by 'b' (default is F:\\photography\\RAW): ")
+        if a == "exit" or a == 'b':
             print('returning to main menu')
         if len(a) > 0:
             only_rename(a)
         else:
             only_rename()
-    if ans == "exit":
+    exit_opt = ['exit','e','E','q','Q']
+    if ans in exit_opt:
         exit()
