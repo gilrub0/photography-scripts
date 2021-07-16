@@ -2,6 +2,7 @@ import datetime
 import glob
 import os
 import shutil
+from tqdm import tqdm
 
 
 def copy_and_rename(path=r"I:\\"):
@@ -22,7 +23,7 @@ def copy_and_rename(path=r"I:\\"):
             os.makedirs(date_folder)
 
     copied_files = 0
-    for f in found_files:
+    for f in tqdm(found_files):
         file_creation_date = datetime.datetime.fromtimestamp(os.stat(f).st_mtime).strftime('%Y_%m_%d')
         new_file_path = os.path.join(root_dist_path, os.path.join(
             datetime.datetime.fromtimestamp(os.stat(f).st_mtime).strftime('%Y_%m_%d').split("_")[0],
@@ -31,18 +32,19 @@ def copy_and_rename(path=r"I:\\"):
                                      file_creation_date + '_' + f.split('\\')[-1])
         if not os.path.exists(new_file_path):
             shutil.copy2(os.path.join(path, f), new_file_path)
-            print("copied " + str(copied_files) + "/" + str(files_counter) + " files")
+            # print("copied " + str(copied_files) + "/" + str(files_counter) + " files")
         else:
-            print("file already exists: ", new_file_path)
-        copied_files += 1
+            continue
+            # vprint("file already exists: ", new_file_path)
+        # copied_files += 1
 
 
 
 
 def only_rename(path=r"F:\photography\RAW"):
     for root, dirs, files in os.walk(path, topdown=False):
-        for name in files:
-            if name.startswith('DSC') and name.endswith(('NEF', 'jpg', 'xmp', 'MOV')):
+        for name in tqdm(files):
+            if name.startswith('DSC') and name.lower().endswith(('nef', 'jpg', 'xmp', 'mov')):
                 os.rename(os.path.join(root, name), os.path.join(root, datetime.datetime.fromtimestamp(
                     os.stat(os.path.join(root, name)).st_mtime).strftime('%Y_%m_%d') + '_' + name))
 
@@ -56,7 +58,7 @@ while True:
     print("input exit to exit")
     ans = input("chose number: ")
     if ans == "1":
-        a = input("input path to copy and rename from or return by 'b' (default path is I:\\): ")
+        a = input(r"input path to copy and rename from or return by 'b' (default path is I:\\): ")
         if len(a) > 0:
             copy_and_rename(a)
         if a == 'exit' or a == 'b':
@@ -64,7 +66,7 @@ while True:
         else:
             copy_and_rename()
     if ans == "2":
-        a = input("input path to scan and rename or return by 'b' (default is F:\\photography\\RAW): ")
+        a = input(r"input path to scan and rename or return by 'b' (default is F:\\photography\\RAW): ")
         if a == "exit" or a == 'b':
             print('returning to main menu')
         if len(a) > 0:
