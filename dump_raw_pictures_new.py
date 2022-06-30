@@ -32,7 +32,9 @@ def copy_and_rename(path=r"I:\\"):
                                          file_creation_date + '_' + f.split('\\')[-1].replace('NEF', 'JPG'))
         if not os.path.exists(new_file_path_NEF):
             shutil.copy2(os.path.join(path, f), new_file_path_NEF)
-            shutil.copy2(os.path.join(path, f.replace('NEF', 'JPG')), new_file_path_jpg)
+            jpg_version = f.replace('NEF', 'JPG')
+            if os.path.exists(os.path.join(path, jpg_version)):
+                shutil.copy2(os.path.join(path, jpg_version), new_file_path_jpg)
 
 
 def only_rename(path=r"F:\photography\RAW"):
@@ -69,4 +71,6 @@ while True:
             only_rename()
     exit_opt = ['exit', 'e', 'E', 'q', 'Q']
     if ans in exit_opt:
+        print("Thank you!")
+        print("bye!")
         exit()
